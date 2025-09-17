@@ -42,6 +42,28 @@ resource "yandex_vpc_route_table" "nat-instance-route" {
 }
 
 
+# Создание бакета с использованием IAM-токена
+
+resource "yandex_storage_bucket" "solovev_bucket" {
+  bucket    = "mybucketsolovev1"
+  folder_id = var.folder_id
+  max_size   = 10485760
+  anonymous_access_flags {
+    read        = true
+    list        = true
+    config_read = true
+  }
+}
+
+resource "yandex_storage_object" "image_object" {
+  # access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
+  # secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+  bucket     = "mybucketsolovev1"
+  key        = "my_image.png"
+  source     = "/home/alex/cloud-2025/img/1.png"
+}
+
+
 data "yandex_compute_image" "ubuntu" {
   family = var.vm_web_family
 }
