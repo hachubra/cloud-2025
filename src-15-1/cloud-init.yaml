@@ -1,0 +1,4 @@
+#cloud-config
+runcmd: 
+- 'sudo su && echo https://storage.yandexcloud.net/mybucketsolovev1/my_image.png > /var/www/html/index.html'
+- 'echo https://storage.yandexcloud.net/mybucketsolovev1/my_image.png > ~/index.html'

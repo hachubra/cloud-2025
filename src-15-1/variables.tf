@@ -17,6 +17,11 @@ variable "default_zone" {
   description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
 }
 
+variable "ig_zone" {
+  type        = list(string)
+  default     = ["ru-central1-a","ru-central1-b","ru-central1-d"]
+  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
+}
 
 variable "nat_image_id" {
   type        = string
