@@ -44,6 +44,14 @@ resource "yandex_vpc_route_table" "nat-instance-route" {
 
 # Создание бакета с использованием IAM-токена
 
+
+resource "yandex_kms_symmetric_key" "key-solovev" {
+  name              = "key-s"
+  description       = "homework-15.3-cloud"
+  default_algorithm = "AES_128"
+  rotation_period   = "8760h" // 1 год
+}
+
 resource "yandex_storage_bucket" "solovev_bucket" {
   bucket    = "mybucketsolovev1"
   folder_id = var.folder_id
@@ -53,6 +61,14 @@ resource "yandex_storage_bucket" "solovev_bucket" {
     list        = true
     config_read = true
   }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = yandex_kms_symmetric_key.key-solovev.id
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }  
 }
 
 resource "yandex_storage_object" "image_object" {
